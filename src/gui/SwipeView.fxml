@@ -21,7 +21,7 @@
       </AnchorPane>
       <BorderPane prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <Pane>
+            <Pane fx:id="letterPane">
                <children>
                   <ImageView fx:id="letter" layoutX="900.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -42,6 +42,7 @@
                         <Image url="@../images/table.png" />
                      </image>
                   </ImageView>
+                  <FlowPane layoutX="85.0" layoutY="54.0" prefHeight="237.0" prefWidth="412.0" />
                </children>
                <BorderPane.margin>
                   <Insets bottom="20.0" left="20.0" top="20.0" />
@@ -63,5 +64,6 @@
             </AnchorPane>
          </right>
       </BorderPane>
+      <AnchorPane fx:id="draggerPane" prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
