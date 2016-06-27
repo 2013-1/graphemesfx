@@ -12,6 +12,8 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
 
 /**
  *
@@ -49,6 +51,7 @@ public class Form extends AnchorPane {
     recusedImage = new Image(source + "form_no.png");
     getChildren().add(base);
     getChildren().add(mask);
+    
   }
 
   public void recuse() {
@@ -67,9 +70,12 @@ public class Form extends AnchorPane {
     if (!check(letter)) {
       throw new IllegalArgumentException("this letter is not compatible.");
     }
+    letter.setTranslateX(0);
+    getChildren().add(2,letter);
+    letter.setX(0);
+    letter.setY(0);
     letter.setLayoutX(0);
     letter.setLayoutY(0);
-    getChildren().add(letter);
   }
 
   public boolean check(Letter letter) {

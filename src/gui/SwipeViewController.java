@@ -44,6 +44,7 @@ public class SwipeViewController implements Initializable {
 
   /**
    * Initializes the controller class.
+   *
    * @param url
    * @param rb
    */
@@ -58,11 +59,12 @@ public class SwipeViewController implements Initializable {
     TranslateTransition translate = new TranslateTransition(new Duration(2000), letter);
     translate.setToX(-900);
     translate.play();
-
-    Form form = new Form();
-    formPane.getChildren().add(form);
     
-    form = new Form(new Letter("D"));
+
+    Form form = new Form(new Letter("D"));
+    formPane.getChildren().add(form);
+
+    form = new Form();
     formPane.getChildren().add(form);
 
     // TODO
@@ -78,13 +80,24 @@ public class SwipeViewController implements Initializable {
         draggerPane.setVisible(true);
       }
     });
-    
+
+    letter.setOnMouseReleased(MouseEvent -> {
+      try {
+        Form selectedForm = greaterIntersection(letter);
+        selectedForm.fit(letter);
+      }
+      catch (IllegalArgumentException ex) {
+        
+      }
+      
+    });
+
     letter.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<Event>() {
       @Override
       public void handle(Event event) {
         Form form = greaterIntersection(letter);
         form.check(letter);
-     }
+      }
     });
   }
 
