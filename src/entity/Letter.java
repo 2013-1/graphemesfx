@@ -17,8 +17,6 @@ import javafx.scene.image.ImageView;
  */
 public class Letter extends ImageView {
 
-  private Point oldLocation;
-  private boolean lowercase;
   private String name;
 
   public Letter() {
@@ -32,14 +30,7 @@ public class Letter extends ImageView {
   }
 
   private void init() {
-
-    String letter = getName().toLowerCase();
-
-    lowercase = letter.equals(getName());
-    String url = (lowercase) ? getLowerCasePath() : getUpperCasePath();
-    url += "letter.png";
-    Image image = new Image(url);
-
+    Image image = new Image(getPath() + "letter.png");
     setImage(image);
     setFitWidth(image.getWidth());
     setFitHeight(image.getHeight());
@@ -49,6 +40,15 @@ public class Letter extends ImageView {
       setY(event.getY() - getFitHeight() / 2);
     });
 
+  }
+
+  public boolean isLowerCase() {
+    String lowerName = getName().toLowerCase();
+    return lowerName.equals(getName());
+  }
+
+  public String getPath() {
+    return isLowerCase() ? getLowerCasePath() : getUpperCasePath();
   }
 
   public String getLowerCasePath() {
@@ -65,10 +65,6 @@ public class Letter extends ImageView {
             + "uppercase" + bar;
     URL resource = getClass().getResource(path);
     return resource.toString();
-  }
-
-  public boolean isLowerCaseLetter() {
-    return lowercase;
   }
 
   public String getName() {
