@@ -40,13 +40,13 @@ public class SwipeViewController implements Initializable {
   @FXML
   private Pane letterPane;
   @FXML
-  private ImageView letter;
-  @FXML
   private AnchorPane draggerPane;
   @FXML
   private FlowPane formPane;
   @FXML
   private StackPane superParent;
+  
+  private Letter letter;
 
   /**
    * Initializes the controller class.
@@ -56,7 +56,7 @@ public class SwipeViewController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-    Letter letter = new Letter();
+    letter = new Letter("D");
     letter.setX(900);
     letterPane.getChildren().add(letter);
     draggerPane.setVisible(false);
@@ -136,6 +136,8 @@ public class SwipeViewController implements Initializable {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VideoAnimation.fxml"));
       StackPane showVideo = loader.load();
+      VideoAnimationController controller = loader.getController();
+      controller.setLetter(letter);
       superParent.getChildren().add(showVideo);
     }
     catch (IOException ex) {

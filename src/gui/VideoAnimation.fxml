@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +14,7 @@
 
 <StackPane fx:id="parentPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VideoAnimationController">
    <children>
-      <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" />
+      <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgray;" />
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
@@ -59,7 +61,18 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <MediaView fx:id="mediaView" fitHeight="10.0" fitWidth="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0" />
+                  <BorderPane fx:id="cardPane" layoutX="472.0" layoutY="162.0" style="-fx-background-color: white; -fx-background-radius: 1;">
+                     <center>
+                        <MediaView fx:id="mediaView" fitHeight="10.0" fitWidth="10.0">
+                           <BorderPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </BorderPane.margin>
+                        </MediaView>
+                     </center>
+                     <effect>
+                        <DropShadow height="2.0" radius="0.5" width="2.0" />
+                     </effect>
+                  </BorderPane>
                </children>
             </AnchorPane>
          </center>

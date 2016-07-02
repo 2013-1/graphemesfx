@@ -10,27 +10,16 @@
 <?import javafx.scene.layout.StackPane?>
 
 
-<StackPane fx:id="superParent" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SwipeViewController">
+<StackPane fx:id="superParent" prefHeight="600.0" prefWidth="868.0" style="-fx-background-color: #E2D7C1;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SwipeViewController">
    <children>
-      <AnchorPane>
-         <children>
-            <ImageView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <image>
-                  <Image url="@../images/background.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
+      <ImageView StackPane.alignment="CENTER">
+         <image>
+            <Image url="@../images/background.png" />
+         </image>
+      </ImageView>
       <BorderPane prefHeight="600.0" prefWidth="900.0">
          <bottom>
             <Pane fx:id="letterPane">
-               <children>
-                  <ImageView fx:id="letter" layoutX="900.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../resource/a/uppercase/letter.png" />
-                     </image>
-                  </ImageView>
-               </children>
                <BorderPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </BorderPane.margin>

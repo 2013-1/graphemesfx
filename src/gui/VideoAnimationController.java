@@ -5,12 +5,14 @@
  */
 package gui;
 
+import entity.Letter;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -42,6 +45,9 @@ public class VideoAnimationController implements Initializable {
   private AnchorPane backgroundPane;
   @FXML
   private StackPane parentPane;
+  private Letter letter;
+  @FXML
+  private BorderPane cardPane;
 
   /**
    * Initializes the controller class.
@@ -51,9 +57,17 @@ public class VideoAnimationController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+
+  }
+
+  public void setLetter(Letter letter) {
+    this.letter = letter;
     fadeIn();
     loadVideo();
-    videoTransition();
+    Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+      videoTransition();
+    }));
+    timer.play();
   }
 
   public void fadeIn() {
@@ -64,14 +78,14 @@ public class VideoAnimationController implements Initializable {
   }
 
   public void fadeOut() {
-    FadeTransition fade = new FadeTransition(Duration.seconds(2), backgroundPane);
-    fade.setFromValue(0.5);
+    FadeTransition fade = new FadeTransition(Duration.seconds(2), parentPane);
+    fade.setFromValue(1);
     fade.setToValue(0);
     fade.play();
   }
 
   private void loadVideo() {
-    String source = getClass().getResource("/resource/a/uppercase/video.mp4").toString();
+    String source = letter.getPath() + "video.mp4";
     Media video = new Media(source);
     player = new MediaPlayer(video);
     mediaView.setMediaPlayer(player);
@@ -85,16 +99,33 @@ public class VideoAnimationController implements Initializable {
     });
   }
 
-  private void videoTransition() {
-    AnchorPane parent = (AnchorPane) mediaView.getParent();
-    double height = parent.getHeight() / 3;
-    double diferenca = height / mediaView.getFitHeight();
-    
-    ScaleTransition scale = new ScaleTransition(Duration.seconds(2), mediaView);
+  public void videoTransition() {
+    AnchorPane parent = (AnchorPane) cardPane.getParent();
+    double height = parent.getHeight();
+    double scaleY = height / cardPane.getHeight();
+
+    ScaleTransition scale = new ScaleTransition(Duration.seconds(2), cardPane);
+    scale.setFromX(1);
+    scale.setFromY(1);
+    scale.setToY(scaleY);
+    scale.setToX(scaleY);
+
+    double x, y;
+    x = parent.getWidth() - cardPane.getLayoutX();
+    y = cardPane.getLayoutY();
+    x -= parent.getWidth() / 2;
+    y += height / 4;
+
+    TranslateTransition translate = new TranslateTransition(Duration.seconds(2), cardPane);
+    translate.setToX(x);
+    translate.setToY(y);
+
+    scale.play();
+    translate.play();
   }
 
   @FXML
-  private void playAction(ActionEvent event) {
+  public void playAction(ActionEvent event) {
     if (player.getStatus() == Status.PLAYING) {
       player.pause();
     }
@@ -104,7 +135,7 @@ public class VideoAnimationController implements Initializable {
   }
 
   @FXML
-  private void closeAction(ActionEvent event) {
+  public void closeAction(ActionEvent event) {
     fadeOut();
     Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (e) -> {
       StackPane parent = (StackPane) parentPane.getParent();

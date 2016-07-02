@@ -36,6 +36,7 @@ public class GraphemeFX extends Application {
       
       primaryStage.setTitle("Graphemes");
       primaryStage.setScene(scene);
+      primaryStage.setResizable(false);
       primaryStage.show();
     }
     catch (IOException ex) {
