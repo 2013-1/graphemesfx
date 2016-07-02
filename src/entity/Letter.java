@@ -5,8 +5,6 @@
  */
 package entity;
 
-import java.awt.Point;
-import java.net.MalformedURLException;
 import java.net.URL;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -64,6 +62,7 @@ public class Letter extends ImageView {
             + getName().trim().toLowerCase() + bar
             + "uppercase" + bar;
     URL resource = getClass().getResource(path);
+    
     return resource.toString();
   }
 

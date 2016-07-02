@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -29,7 +30,7 @@ public class GraphemeFX extends Application {
   public void start(Stage primaryStage) {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/SwipeView.fxml"));
-      AnchorPane root = loader.load();
+      StackPane root = loader.load();
       
       Scene scene = new Scene(root);
       

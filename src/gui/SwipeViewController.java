@@ -7,13 +7,18 @@ package gui;
 
 import entity.Form;
 import entity.Letter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
+import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -21,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -40,7 +46,7 @@ public class SwipeViewController implements Initializable {
   @FXML
   private FlowPane formPane;
   @FXML
-  private AnchorPane superParent;
+  private StackPane superParent;
 
   /**
    * Initializes the controller class.
@@ -56,16 +62,21 @@ public class SwipeViewController implements Initializable {
     draggerPane.setVisible(false);
     letterEvents(letter);
 
-    TranslateTransition translate = new TranslateTransition(new Duration(2000), letter);
+    TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
     translate.setToX(-900);
     translate.play();
-    
 
     Form form = new Form(new Letter("D"));
     formPane.getChildren().add(form);
 
     form = new Form();
     formPane.getChildren().add(form);
+
+    superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
+      if (superParent.getChildren().size() == 3) {
+        nextLetter();
+      }
+    });
 
     // TODO
   }
@@ -85,19 +96,17 @@ public class SwipeViewController implements Initializable {
       try {
         Form selectedForm = greaterIntersection(letter);
         selectedForm.fit(letter);
+        showVideo();
       }
       catch (IllegalArgumentException ex) {
-        
+
       }
-      
+
     });
 
-    letter.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<Event>() {
-      @Override
-      public void handle(Event event) {
-        Form form = greaterIntersection(letter);
-        form.check(letter);
-      }
+    letter.addEventHandler(MouseEvent.MOUSE_DRAGGED, Event -> {
+      Form form = greaterIntersection(letter);
+      form.check(letter);
     });
   }
 
@@ -121,6 +130,22 @@ public class SwipeViewController implements Initializable {
       }
     }
     return greater;
+  }
+
+  private void showVideo() {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VideoAnimation.fxml"));
+      StackPane showVideo = loader.load();
+      superParent.getChildren().add(showVideo);
+    }
+    catch (IOException ex) {
+      Logger.getLogger(SwipeViewController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+  }
+
+  private void nextLetter() {
+
   }
 
 }
