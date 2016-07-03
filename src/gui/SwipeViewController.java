@@ -7,8 +7,12 @@ package gui;
 
 import entity.Form;
 import entity.Letter;
+import graphemefx.GraphemeFX;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,11 +70,7 @@ public class SwipeViewController implements Initializable {
     translate.setToX(-900);
     translate.play();
 
-    Form form = new Form(new Letter("D"));
-    formPane.getChildren().add(form);
-
-    form = new Form();
-    formPane.getChildren().add(form);
+    initForms();
 
     superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
       if (superParent.getChildren().size() == 3) {
@@ -79,6 +79,23 @@ public class SwipeViewController implements Initializable {
     });
 
     // TODO
+  }
+  
+   private void initForms() {
+    final int formsSize = 6;
+    ArrayList<Form> forms = new ArrayList<>();
+    forms.add(new Form(letter));
+    Form received[] = GraphemeFX.gameControll.nextForms(formsSize);
+    forms.addAll(Arrays.asList(received));
+    Collections.shuffle(forms);
+
+    formPane.getChildren().removeAll();
+
+    for (Form form : forms) {
+      formPane.getChildren().add(form);
+      form.setVisible(true);
+    }
+    
   }
 
   private void letterEvents(Letter letter) {

@@ -48,6 +48,11 @@ public class VideoAnimationController implements Initializable {
   private Letter letter;
   @FXML
   private BorderPane cardPane;
+  private boolean hasClock = true;
+  private Image soundImage;
+  private Image muteImage;
+  @FXML
+  private ImageView muteView;
 
   /**
    * Initializes the controller class.
@@ -64,16 +69,27 @@ public class VideoAnimationController implements Initializable {
     this.letter = letter;
     fadeIn();
     loadVideo();
-    Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+    Timeline timer = new Timeline(new KeyFrame(Duration.millis(100), e -> {
       videoTransition();
     }));
     timer.play();
+    timer = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
+      player.play();
+      Timeline t = new Timeline(new KeyFrame(Duration.seconds(2), ee -> {
+        if (hasClock) {
+          closeAction();
+        }
+      }));
+      t.play();
+    }));
+    timer.play();
+
   }
 
   public void fadeIn() {
     FadeTransition fade = new FadeTransition(Duration.seconds(2), backgroundPane);
     fade.setFromValue(0.0);
-    fade.setToValue(0.5);
+    fade.setToValue(0.75);
     fade.play();
   }
 
@@ -97,11 +113,19 @@ public class VideoAnimationController implements Initializable {
     player.setOnPaused(() -> {
       playImage.setImage(new Image(getClass().getResource("/icons/play.png").toString()));
     });
+
+    soundImage = new Image(getClass().getResource("/icons/audio.png").toString());
+    muteImage = new Image(getClass().getResource("/icons/mute.png").toString());
+
+    FadeTransition fade = new FadeTransition(Duration.seconds(1), mediaView);
+    fade.setFromValue(0.0);
+    fade.setToValue(1);
+    fade.play();
   }
 
   public void videoTransition() {
     AnchorPane parent = (AnchorPane) cardPane.getParent();
-    double height = parent.getHeight();
+    double height = parent.getHeight() * 2 / 3;
     double scaleY = height / cardPane.getHeight();
 
     ScaleTransition scale = new ScaleTransition(Duration.seconds(2), cardPane);
@@ -111,10 +135,10 @@ public class VideoAnimationController implements Initializable {
     scale.setToX(scaleY);
 
     double x, y;
-    x = parent.getWidth() - cardPane.getLayoutX();
-    y = cardPane.getLayoutY();
+    x = parent.getWidth() - cardPane.getLayoutX() - cardPane.getWidth() / 2;
     x -= parent.getWidth() / 2;
-    y += height / 4;
+    y = parent.getHeight() - cardPane.getLayoutY();
+    y -= parent.getHeight() / 2;
 
     TranslateTransition translate = new TranslateTransition(Duration.seconds(2), cardPane);
     translate.setToX(x);
@@ -132,16 +156,32 @@ public class VideoAnimationController implements Initializable {
     else {
       player.play();
     }
+    hasClock = false;
   }
 
   @FXML
-  public void closeAction(ActionEvent event) {
+  public void closeAction() {
     fadeOut();
     Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (e) -> {
       StackPane parent = (StackPane) parentPane.getParent();
       parent.getChildren().remove(parentPane);
     }));
     timer.play();
+  }
+
+  @FXML
+  private void replayAction(ActionEvent event) {
+    hasClock = false;
+    player.stop();
+    player.play();
+  }
+
+  @FXML
+  private void muteAction(ActionEvent event) {
+    hasClock = false;
+    player.setMute(!player.isMute());
+    
+    muteView.setImage(player.isMute()? muteImage: soundImage);
   }
 
 }

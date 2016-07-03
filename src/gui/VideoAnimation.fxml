@@ -14,7 +14,7 @@
 
 <StackPane fx:id="parentPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VideoAnimationController">
    <children>
-      <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgray;" />
+      <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" />
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
@@ -28,7 +28,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="292.0" layoutY="25.0" mnemonicParsing="false">
+                  <Button layoutX="292.0" layoutY="25.0" mnemonicParsing="false" onAction="#replayAction">
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -37,11 +37,11 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="310.0" layoutY="25.0" mnemonicParsing="false">
+                  <Button layoutX="310.0" layoutY="25.0" mnemonicParsing="false" onAction="#muteAction">
                      <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="muteView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../icons/mute.png" />
+                              <Image url="@../icons/audio.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -61,16 +61,16 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <BorderPane fx:id="cardPane" layoutX="472.0" layoutY="162.0" style="-fx-background-color: white; -fx-background-radius: 1;">
+                  <BorderPane fx:id="cardPane" layoutX="528.0" layoutY="120.0" style="-fx-background-color: white; -fx-background-radius: 3;" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="131.0">
                      <center>
-                        <MediaView fx:id="mediaView" fitHeight="10.0" fitWidth="10.0">
+                        <MediaView fx:id="mediaView" fitHeight="99.0" fitWidth="131.0" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
-                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                              <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                            </BorderPane.margin>
                         </MediaView>
                      </center>
                      <effect>
-                        <DropShadow height="2.0" radius="0.5" width="2.0" />
+                        <DropShadow height="12.1" radius="5.55" width="12.1" />
                      </effect>
                   </BorderPane>
                </children>

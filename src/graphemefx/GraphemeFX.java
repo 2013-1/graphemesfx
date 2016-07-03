@@ -5,6 +5,7 @@
  */
 package graphemefx;
 
+import entity.GameControll;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +27,12 @@ import javafx.stage.Stage;
  */
 public class GraphemeFX extends Application {
   
+    public static GameControll gameControll = new GameControll();
+  
   @Override
   public void start(Stage primaryStage) {
     try {
+      gameControll.initGame();
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/SwipeView.fxml"));
       StackPane root = loader.load();
       
