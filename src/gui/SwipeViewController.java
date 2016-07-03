@@ -7,6 +7,7 @@ package gui;
 
 import entity.Form;
 import entity.Letter;
+import files.LetterMananger;
 import graphemefx.GraphemeFX;
 import java.io.IOException;
 import java.net.URL;
@@ -49,8 +50,10 @@ public class SwipeViewController implements Initializable {
   private FlowPane formPane;
   @FXML
   private StackPane superParent;
-  
+
   private Letter letter;
+
+  private LetterMananger letterMananger;
 
   /**
    * Initializes the controller class.
@@ -60,17 +63,13 @@ public class SwipeViewController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle rb) {
-    letter = new Letter("D");
-    letter.setX(900);
-    letterPane.getChildren().add(letter);
-    draggerPane.setVisible(false);
-    letterEvents(letter);
+    letterMananger = new LetterMananger();
+    initForms();
+    initLetter();
 
     TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
     translate.setToX(-900);
     translate.play();
-
-    initForms();
 
     superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
       if (superParent.getChildren().size() == 3) {
@@ -80,12 +79,19 @@ public class SwipeViewController implements Initializable {
 
     // TODO
   }
-  
-   private void initForms() {
-    final int formsSize = 6;
+
+  private void initLetter() {
+    letter = letterMananger.nextLetter();
+    letter.setX(900);
+    letterPane.getChildren().add(letter);
+    draggerPane.setVisible(false);
+    letterEvents(letter);
+  }
+
+  private void initForms() {
+    final int size = 6;
     ArrayList<Form> forms = new ArrayList<>();
-    forms.add(new Form(letter));
-    Form received[] = GraphemeFX.gameControll.nextForms(formsSize);
+    Form received[] = letterMananger.getForms(size);
     forms.addAll(Arrays.asList(received));
     Collections.shuffle(forms);
 
@@ -95,7 +101,7 @@ public class SwipeViewController implements Initializable {
       formPane.getChildren().add(form);
       form.setVisible(true);
     }
-    
+
   }
 
   private void letterEvents(Letter letter) {

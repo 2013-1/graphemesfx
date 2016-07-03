@@ -5,19 +5,12 @@
  */
 package graphemefx;
 
-import entity.GameControll;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -26,18 +19,15 @@ import javafx.stage.Stage;
  * @author Yan Kaic
  */
 public class GraphemeFX extends Application {
-  
-    public static GameControll gameControll = new GameControll();
-  
+
   @Override
   public void start(Stage primaryStage) {
     try {
-      gameControll.initGame();
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/SwipeView.fxml"));
       StackPane root = loader.load();
-      
+
       Scene scene = new Scene(root);
-      
+
       primaryStage.setTitle("Graphemes");
       primaryStage.setScene(scene);
       primaryStage.setResizable(false);
@@ -54,5 +44,5 @@ public class GraphemeFX extends Application {
   public static void main(String[] args) {
     launch(args);
   }
-  
+
 }
