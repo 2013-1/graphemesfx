@@ -41,7 +41,7 @@ public class LetterMananger {
     Preferences preferences = Preferences.userNodeForPackage(LetterMananger.class);
     String pendences = preferences.get("pendences", null);
     if (pendences == null) {
-      pendences = complete;
+      pendences = complete + complete.toUpperCase();
     }
     toList(pendences);
     Collections.shuffle(pendencesList);
@@ -58,7 +58,8 @@ public class LetterMananger {
   }
 
   public void reload() {
-    toList(complete);
+    String pendences = complete + complete.toUpperCase();
+    toList(pendences);
     Collections.shuffle(pendencesList);
   }
 

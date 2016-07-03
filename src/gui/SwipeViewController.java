@@ -64,12 +64,8 @@ public class SwipeViewController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     letterMananger = new LetterMananger();
-    initForms();
-    initLetter();
+    nextLetter();
 
-    TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
-    translate.setToX(-900);
-    translate.play();
 
     superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
       if (superParent.getChildren().size() == 3) {
@@ -85,7 +81,11 @@ public class SwipeViewController implements Initializable {
     letter.setX(900);
     letterPane.getChildren().add(letter);
     draggerPane.setVisible(false);
-    letterEvents(letter);
+    letterEvents(letter);    
+    
+    TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
+    translate.setToX(-900);
+    translate.play();
   }
 
   private void initForms() {
@@ -95,7 +95,7 @@ public class SwipeViewController implements Initializable {
     forms.addAll(Arrays.asList(received));
     Collections.shuffle(forms);
 
-    formPane.getChildren().removeAll();
+    formPane.getChildren().clear();
 
     for (Form form : forms) {
       formPane.getChildren().add(form);
@@ -170,7 +170,8 @@ public class SwipeViewController implements Initializable {
   }
 
   private void nextLetter() {
-
+    initForms();
+    initLetter();
   }
 
 }
