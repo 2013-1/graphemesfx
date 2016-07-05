@@ -176,10 +176,17 @@ public class SwipeViewController implements Initializable {
 
   private void showVideo() {
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VideoAnimation.fxml"));
+      String path = letter.isLowerCase() ? "LowerCaseAnimation" : "VideoAnimation";
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/"+path+".fxml"));
       StackPane showVideo = loader.load();
-      VideoAnimationController controller = loader.getController();
-      controller.setLetter(letter);
+      
+      if(letter.isLowerCase()){
+          LowerCaseAnimationController controller = loader.getController();
+          controller.setLetter(letter);
+      }else{
+          VideoAnimationController controller = loader.getController();
+          controller.setLetter(letter);
+      }
       superParent.getChildren().add(showVideo);
     }
     catch (IOException ex) {
