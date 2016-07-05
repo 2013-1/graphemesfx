@@ -20,6 +20,8 @@ import javafx.stage.Stage;
  */
 public class GraphemeFX extends Application {
 
+    public static String BAR="/";
+
   @Override
   public void start(Stage primaryStage) {
     try {
