@@ -25,6 +25,7 @@ import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -107,6 +108,7 @@ public class SwipeViewController implements Initializable {
   private void letterEvents(Letter letter) {
     letter.setOnMousePressed(MouseEvent -> {
       if (draggerPane.getChildren().isEmpty()) {
+        letter.setTranslateX(0);
         letterPane.getChildren().remove(letter);
         draggerPane.getChildren().add(letter);
         letter.setLayoutX(letterPane.getLayoutX());
@@ -122,7 +124,24 @@ public class SwipeViewController implements Initializable {
         showVideo();
       }
       catch (IllegalArgumentException ex) {
-
+//        letter.setTranslateX(0);
+//        letter.setTranslateY(0);
+        double x = letterPane.getLayoutX();
+        double y = letterPane.getLayoutY();
+        
+        System.out.println("x: "+x+" y: "+y);
+        Bounds bounds = letter.localToScene(letter.getBoundsInLocal());
+//        System.out.println("bounds: "+bounds);
+        x -= bounds.getMinX();
+        y  -= bounds.getMinY();
+                
+        System.out.println("x: "+letter.getTranslateX()+" y: "+letter.getTranslateY());
+        
+        TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
+//        translate.setFromX(0);
+        translate.setToX(x);
+        translate.setToY(y);
+        translate.play();
       }
 
     });

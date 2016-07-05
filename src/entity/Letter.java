@@ -33,7 +33,7 @@ public class Letter extends ImageView {
     setFitWidth(image.getWidth());
     setFitHeight(image.getHeight());
 
-    setOnMouseDragged((javafx.scene.input.MouseEvent event) -> {
+    setOnMouseDragged((event) -> {
       setX(event.getX() - getFitWidth() / 2);
       setY(event.getY() - getFitHeight() / 2);
     });
@@ -62,7 +62,7 @@ public class Letter extends ImageView {
             + getName().trim().toLowerCase() + bar
             + "uppercase" + bar;
     URL resource = getClass().getResource(path);
-    
+
     return resource.toString();
   }
 
