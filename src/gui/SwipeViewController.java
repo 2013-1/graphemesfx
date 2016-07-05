@@ -8,7 +8,6 @@ package gui;
 import entity.Form;
 import entity.Letter;
 import files.LetterMananger;
-import graphemefx.GraphemeFX;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,21 +20,16 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ListChangeListener;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -67,16 +61,21 @@ public class SwipeViewController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     letterMananger = new LetterMananger();
-    nextLetter();
 
     superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
       if (superParent.getChildren().size() == 3) {
         nextLetter();
       }
-      System.out.println(superParent.getChildren().size());
     });
 
-    // TODO
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/InitialScreen.fxml"));
+      StackPane initial = (StackPane) loader.load();
+      superParent.getChildren().add(initial);
+    }
+    catch (IOException ex) {
+      Logger.getLogger(SwipeViewController.class.getName()).log(Level.SEVERE, null, ex);
+    }
   }
 
   private void initLetter() {

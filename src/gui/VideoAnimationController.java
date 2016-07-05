@@ -161,6 +161,11 @@ public class VideoAnimationController implements Initializable {
 
   @FXML
   public void closeAction() {
+    hasClock = false;
+    close();
+  }
+
+  public void close() {
     fadeOut();
     Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (e) -> {
       StackPane parent = (StackPane) parentPane.getParent();
@@ -180,8 +185,8 @@ public class VideoAnimationController implements Initializable {
   private void muteAction(ActionEvent event) {
     hasClock = false;
     player.setMute(!player.isMute());
-    
-    muteView.setImage(player.isMute()? muteImage: soundImage);
+
+    muteView.setImage(player.isMute() ? muteImage : soundImage);
   }
 
 }
