@@ -67,7 +67,6 @@ public class SwipeViewController implements Initializable {
     letterMananger = new LetterMananger();
     nextLetter();
 
-
     superParent.getChildren().addListener((ListChangeListener.Change<? extends Node> c) -> {
       if (superParent.getChildren().size() == 3) {
         nextLetter();
@@ -82,8 +81,8 @@ public class SwipeViewController implements Initializable {
     letter.setX(900);
     letterPane.getChildren().add(letter);
     draggerPane.setVisible(false);
-    letterEvents(letter);    
-    
+    letterEvents(letter);
+
     TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
     translate.setToX(-900);
     translate.play();
@@ -124,24 +123,7 @@ public class SwipeViewController implements Initializable {
         showVideo();
       }
       catch (IllegalArgumentException ex) {
-//        letter.setTranslateX(0);
-//        letter.setTranslateY(0);
-        double x = letterPane.getLayoutX();
-        double y = letterPane.getLayoutY();
-        
-        System.out.println("x: "+x+" y: "+y);
-        Bounds bounds = letter.localToScene(letter.getBoundsInLocal());
-//        System.out.println("bounds: "+bounds);
-        x -= bounds.getMinX();
-        y  -= bounds.getMinY();
-                
-        System.out.println("x: "+letter.getTranslateX()+" y: "+letter.getTranslateY());
-        
-        TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
-//        translate.setFromX(0);
-        translate.setToX(x);
-        translate.setToY(y);
-        translate.play();
+        returnLetter();
       }
 
     });
@@ -150,6 +132,25 @@ public class SwipeViewController implements Initializable {
       Form form = greaterIntersection(letter);
       form.check(letter);
     });
+  }
+
+  private void returnLetter() {
+    double x = letterPane.getLayoutX();
+    double y = letterPane.getLayoutY();
+
+    System.out.println("x: " + x + " y: " + y);
+    Bounds bounds = letter.localToScene(letter.getBoundsInLocal());
+//        System.out.println("bounds: "+bounds);
+    x -= bounds.getMinX();
+    y -= bounds.getMinY();
+
+    System.out.println("x: " + letter.getTranslateX() + " y: " + letter.getTranslateY());
+
+    TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
+//        translate.setFromX(0);
+    translate.setToX(x);
+    translate.setToY(y);
+    translate.play();
   }
 
   public void checkAll(Letter letter) {
@@ -177,22 +178,22 @@ public class SwipeViewController implements Initializable {
   private void showVideo() {
     try {
       String path = letter.isLowerCase() ? "LowerCaseAnimation" : "VideoAnimation";
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/"+path+".fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/" + path + ".fxml"));
       StackPane showVideo = loader.load();
-      
-      if(letter.isLowerCase()){
-          LowerCaseAnimationController controller = loader.getController();
-          controller.setLetter(letter);
-      }else{
-          VideoAnimationController controller = loader.getController();
-          controller.setLetter(letter);
+
+      if (letter.isLowerCase()) {
+        LowerCaseAnimationController controller = loader.getController();
+        controller.setLetter(letter);
+      }
+      else {
+        VideoAnimationController controller = loader.getController();
+        controller.setLetter(letter);
       }
       superParent.getChildren().add(showVideo);
     }
     catch (IOException ex) {
       Logger.getLogger(SwipeViewController.class.getName()).log(Level.SEVERE, null, ex);
     }
-
   }
 
   private void nextLetter() {
