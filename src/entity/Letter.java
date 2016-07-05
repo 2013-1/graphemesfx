@@ -8,6 +8,7 @@ package entity;
 import java.net.URL;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -34,10 +35,14 @@ public class Letter extends ImageView {
     setFitHeight(image.getHeight());
 
     setOnMouseDragged((event) -> {
-      setX(event.getX() - getFitWidth() / 2);
-      setY(event.getY() - getFitHeight() / 2);
+      alignPointer(event);
     });
 
+  }
+
+  public void alignPointer(MouseEvent event) {
+    setX(event.getX() - getFitWidth() / 2);
+    setY(event.getY() - getFitHeight() / 2);
   }
 
   public boolean isLowerCase() {

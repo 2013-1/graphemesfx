@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.collections.ListChangeListener;
 import javafx.event.Event;
@@ -71,6 +73,7 @@ public class SwipeViewController implements Initializable {
       if (superParent.getChildren().size() == 3) {
         nextLetter();
       }
+      System.out.println(superParent.getChildren().size());
     });
 
     // TODO
@@ -86,6 +89,12 @@ public class SwipeViewController implements Initializable {
     TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
     translate.setToX(-900);
     translate.play();
+
+    Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (ae) -> {
+      letter.setTranslateX(0);
+      letter.setX(0);
+    }));
+    timer.play();
   }
 
   private void initForms() {
@@ -105,9 +114,10 @@ public class SwipeViewController implements Initializable {
   }
 
   private void letterEvents(Letter letter) {
-    letter.setOnMousePressed(MouseEvent -> {
+    letter.setOnMousePressed(event -> {
+//        letter.setX(letterPane.getLayoutX());
+//        letter.setY(letterPane.getLayoutY());
       if (draggerPane.getChildren().isEmpty()) {
-        letter.setTranslateX(0);
         letterPane.getChildren().remove(letter);
         draggerPane.getChildren().add(letter);
         letter.setLayoutX(letterPane.getLayoutX());
@@ -139,18 +149,32 @@ public class SwipeViewController implements Initializable {
     double y = letterPane.getLayoutY();
 
     System.out.println("x: " + x + " y: " + y);
-    Bounds bounds = letter.localToScene(letter.getBoundsInLocal());
-//        System.out.println("bounds: "+bounds);
+    Bounds bounds = letter.getBoundsInParent();
+    System.out.println("letter bounds: " + bounds);
     x -= bounds.getMinX();
-    y -= bounds.getMinY();
+    y -= bounds.getMinY() + letter.getFitHeight();
 
-    System.out.println("x: " + letter.getTranslateX() + " y: " + letter.getTranslateY());
+    System.out.println("x: " + x + " y: " + y);
 
     TranslateTransition translate = new TranslateTransition(Duration.seconds(2), letter);
-//        translate.setFromX(0);
     translate.setToX(x);
     translate.setToY(y);
     translate.play();
+
+    Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (ae) -> {
+      if (!draggerPane.getChildren().isEmpty()) {
+        draggerPane.getChildren().remove(letter);
+        letterPane.getChildren().add(letter);
+        letter.setTranslateX(0);
+        letter.setTranslateY(0);
+        letter.setX(0);
+        letter.setY(0);
+        letter.setLayoutX(0);
+        letter.setLayoutY(0);
+        draggerPane.setVisible(false);
+      }
+    }));
+    timer.play();
   }
 
   public void checkAll(Letter letter) {
