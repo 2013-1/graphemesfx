@@ -181,6 +181,7 @@ public class LowerCaseAnimationController implements Initializable {
     fadeOut(backgroundPane, 1);
     fadeOut(buttonPane, 1);
     fadeOut(imagesPane, 1);
+    isClosing = false;
     Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2),
             (e) -> {
               StackPane parent = (StackPane) parentPane.getParent();
@@ -188,6 +189,26 @@ public class LowerCaseAnimationController implements Initializable {
             })
     );
     timer.play();
+    
+    //retomando a animação
+      if (timerAudio != null && timerAudio.getStatus() == Timeline.Status.RUNNING) {//pausando o audio
+        timerAudio.stop();
+      }//fim if
+      if (timerClose != null && timerClose.getStatus() == Timeline.Status.RUNNING) {//pausando o close automático
+        timerClose.stop();
+      }//fim if
+      if (timerTranslacaoH != null && timerTranslacaoH.getStatus() == Timeline.Status.RUNNING) {//pausando a translação dos centros
+        timerTranslacaoH.stop();
+      }//fim if
+      if (translate != null && translate.getStatus() == Animation.Status.RUNNING) {//pausando a translação inicial e/ou do centro
+        translate.stop();
+      }//fim if
+      if (scale != null && scale.getStatus() == Animation.Status.RUNNING) {//pausando a escala
+        scale.stop();
+      }//fim if
+      if (timerReplay != null && timerReplay.getStatus() == Timeline.Status.RUNNING) {
+        timerReplay.stop();
+      }//fim if
   }//fim closeAction
 
   /**

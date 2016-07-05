@@ -169,7 +169,8 @@ public class VideoAnimationController implements Initializable {
     fadeOut();
     Timeline timer = new Timeline(new KeyFrame(Duration.seconds(2), (e) -> {
       StackPane parent = (StackPane) parentPane.getParent();
-      parent.getChildren().remove(parentPane);
+      if(!parent.getChildren().contains(parentPane))
+        parent.getChildren().remove(parentPane);
     }));
     timer.play();
   }
